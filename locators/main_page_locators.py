@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+
+
 class MainPageLocators:
     order_button = By.XPATH, ".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']"
     header_main_questions = By.XPATH, ".//div[contains(text(), 'Вопросы о важном')]"

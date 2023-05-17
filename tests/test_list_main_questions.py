@@ -1,17 +1,13 @@
 import pytest
-from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from locators.main_page_locators import MainPageLocators
 from pages.main_page import MainPageScooter
 
+
 class TestAnswersAndQuestions:
     driver = None
 
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-        cls.driver.maximize_window()
     @pytest.mark.parametrize('question, answer, result',
                              [[0, 0, 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.'],
                               [1, 1, 'Пока что у нас так: один заказ — один самокат. '
@@ -23,26 +19,23 @@ class TestAnswersAndQuestions:
                               [5, 5, 'Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.'],
                               [6, 6, 'Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.'],
                               [7, 7, 'Да, обязательно. Всем самокатов! И Москве, и Московской области.']])
-    def test_check_answers(self, question, answer, result):
-        self.driver.get('https://qa-scooter.praktikum-services.ru/')
-        main_page = MainPageScooter(self.driver)
+    def test_check_answers(self, driver, question, answer, result):
+        main_page = MainPageScooter(driver)
         main_page.scroll_to_header_main_questions()
         method, locator = MainPageLocators.question_field
         locator = locator.format(question)
-        question_field = self.driver.find_element(method, locator)
+        question_field = driver.find_element(method, locator)
         method, locator = MainPageLocators.answer_field
         locator = locator.format(answer)
-        answer_field = self.driver.find_element(method, locator)
-        self.driver.execute_script("arguments[0].scrollIntoView();", answer_field)
+        answer_field = driver.find_element(method, locator)
+        driver.execute_script("arguments[0].scrollIntoView();", answer_field)
         question_field.click()
-        WebDriverWait(self.driver, 9).until(
+        WebDriverWait(driver, 9).until(
             expected_conditions.visibility_of(answer_field))
-        answer_field = self.driver.find_element(method, locator)
+        answer_field = driver.find_element(method, locator)
         assert answer_field.text == result, "Ответ не появился"
 
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit()
+
 
 
 

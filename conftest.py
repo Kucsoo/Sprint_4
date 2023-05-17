@@ -1,28 +1,11 @@
 import pytest
-import helpers
+from selenium import webdriver
 
+@pytest.fixture()
+def driver():
+    driver = webdriver.Firefox()
+    driver.maximize_window()
+    driver.get('https://qa-scooter.praktikum-services.ru/')
 
-
-@pytest.fixture
-def name():
-    name = helpers.random_name()
-    return name
-@pytest.fixture
-def surname():
-    surname = helpers.random_surname()
-    return surname
-
-@pytest.fixture
-def address():
-    address = helpers.random_address()
-    return address
-
-@pytest.fixture
-def telephone():
-    telephone = helpers.random_telephone()
-    return telephone
-
-@pytest.fixture
-def comment():
-    comment = helpers.random_comment()
-    return comment
+    yield driver
+    driver.quit()

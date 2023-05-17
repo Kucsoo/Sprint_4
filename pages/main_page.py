@@ -1,45 +1,50 @@
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
-class MainPageScooter:
-    def __init__(self, driver):
-        self.driver = driver
-    def question_banner(self):
-        return self.driver.find_element(*MainPageLocators.question)
+from locators.base_locators import BaseLocators
+
+
+class MainPageScooter(BasePage):
 
     def header_main(self):
         return self.driver.find_element(*MainPageLocators.main_header)
-    def header_main_questions(self):
-        return self.driver.find_element(*MainPageLocators.header_main_questions)
+    def click_yandex_logo(self):
+        element = self.driver.find_element(*BaseLocators.logo_yandex)
+        self.click(element)
+
+    def click_scooter_logo(self):
+        element = self.driver.find_element(*BaseLocators.logo_scooter)
+        self.click(element)
+
+    def click_header_order_button(self):
+        element = self.driver.find_element(*BaseLocators.order_button)
+        self.click(element)
+
+    def wait_for_load_enter_button(self):
+        self.wait_element(BaseLocators.enter_button)
 
     def click_question_banner(self):
-        self.question_banner().click()
-
-    def cookie_button(self):
-        return self.driver.find_element(*MainPageLocators.cookie_button)
+        element = self.driver.find_element(*MainPageLocators.question_field)
+        self.click(element)
 
     def click_cookie_button(self):
-        self.cookie_button().click()
-
-    def order_button(self):
-        return self.driver.find_element(*MainPageLocators.order_button)
+        element = self.driver.find_element(*MainPageLocators.cookie_button)
+        self.click(element)
 
     def scroll_to_order_button(self):
-        element = self.order_button()
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        element = self.driver.find_element(*MainPageLocators.order_button)
+        self.scroll_to_element(element)
 
     def click_order_button(self):
-        self.order_button().click()
-
+        element = self.driver.find_element(*MainPageLocators.order_button)
+        self.click(element)
 
     def scroll_to_header_main_questions(self):
-        element = self.header_main_questions()
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        element = self.driver.find_element(*MainPageLocators.header_main_questions)
+        self.scroll_to_element(element)
 
     def wait_for_load_header_main_questions(self):
-        WebDriverWait(self.driver, 6).until(
-            expected_conditions.visibility_of_element_located(MainPageLocators.answer_field))
+        self.wait_element(MainPageLocators.header_main_questions)
+
     def wait_for_scooter_img(self):
-        WebDriverWait(self.driver, 6).until(
-            expected_conditions.visibility_of_element_located(MainPageLocators.scooter_img))
+        self.wait_element(MainPageLocators.scooter_img)
 

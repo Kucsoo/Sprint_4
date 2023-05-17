@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+
 class OrderPageLocators:
     order_header_for_whom_scooter = By.XPATH,".//div[@class ='Order_Header__BZXOb']"
     name_input = By.XPATH, ".//input[@placeholder='* Имя']"
